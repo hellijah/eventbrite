@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "static_pages/index"
+  get "static_pages/secret"
+  devise_for :users
   # get "attendances/create"
   # get "events/index"
   # get "events/show"
@@ -13,7 +16,9 @@ Rails.application.routes.draw do
   resources :events
   resources :attendances
 
-  root 'events#index'
+  # root 'events#index'
+  root 'static_pages#index'
+
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
