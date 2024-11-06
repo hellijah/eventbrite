@@ -17,9 +17,17 @@
 
 
 <% if user_signed_in? && current_user != @event.user && !@event.attendances.exists?(user_id: current_user.id) %>
-  <%= link_to "Rejoindre l'événement", new_event_attendance_path(@event) %>
+  <!-- Bouton pour rejoindre l'événement et payer avec Stripe -->
+  <%= button_to "Rejoindre et Payer", create_checkout_session_event_path(@event), method: :post, class: "btn btn-primary" %>
 <% end %>
 
 <% if current_user == @event.user %>
   <%= link_to 'Mon espace événement', event_attendances_path(@event) %>
+<% end %>
+
+<!-- Messages de confirmation ou annulation de paiement -->
+<% if params[:payment] == 'success' %>
+  <p>Merci pour votre paiement ! c'est pour ma poche</p>
+<% elsif params[:payment] == 'cancel' %>
+  <p>Le paiement a été annulé. Vous pouvez réessayer ou pas</p>
 <% end %>

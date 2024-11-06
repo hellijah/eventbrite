@@ -13,9 +13,16 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :users
+
+  resources :events do
+    post 'create_checkout_session', to: 'payments#create_checkout_session'
+  end
+  
   resources :events do
     resources :attendances, only: [:index, :new, :create]
   end
+  
+  
 
   # root 'events#index'
   root 'static_pages#index'
