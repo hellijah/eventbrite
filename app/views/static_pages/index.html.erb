@@ -28,3 +28,14 @@
 
   <% end %>
 </ul>
+
+<h1>Liste des événements</h1>
+
+<% @events.each do |event| %>
+  <div class="event">
+    <h2><%= link_to event.title, event_path(event) %></h2>
+    <p><strong>Date :</strong> <%= event.start_date.strftime('%d %B %Y') %></p>
+    <p><strong>Lieu :</strong> <%= event.location %></p>
+    <p><strong>Prix :</strong> <%= event.price %>€</p>
+  </div>
+<% end %>

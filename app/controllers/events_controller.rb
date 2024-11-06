@@ -1,10 +1,13 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
+  before_action :authorize_event_creator!
+  before_action :set_event
   
   def index
   end
 
   def show
+    @event = Event.find(params[:id])
   end
 
   def new
@@ -29,6 +32,14 @@ class EventsController < ApplicationController
     end
   end
 
+  def attendances
+    @event = Event.find(params[:id])
+    @attendances = @event.attendances.includes(:user)
+  end
+
+  def set_event
+    @event = Event.find(params[:id])
+  end
 private
 
 def event_params
@@ -47,5 +58,9 @@ end
 #   )
 # end
 
+def authorize_event_creator!
+  @event = Event.find(params[:id])
+  redirect_to root_path, alert: "Vous n'êtes pas autorisé à accéder à cette page" unless current_user == @event.user
+end
 
 end

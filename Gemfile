@@ -38,6 +38,7 @@ gem "bootsnap", require: false
 gem 'activerecord'
 gem 'devise'
 gem 'dotenv-rails'
+gem 'stripe'
 
 
 group :development, :test do

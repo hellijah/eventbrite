@@ -1,0 +1,8 @@
+<h1>Liste des invités pour : <%= @event.title %></h1>
+<ul>
+  <% @attendances.each do |attendance| %>
+    <li><%= attendance.user.first_name %> <%= attendance.user.last_name %></li>
+  <% end %>
+</ul>
+<%= link_to 'Modifier l\'événement', edit_event_path(@event) %>
+<%= link_to 'Supprimer l\'événement', @event, method: :delete, data: { confirm: 'Êtes-vous sûr ?' } %>

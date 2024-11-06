@@ -1,0 +1,7 @@
+<h1>Rejoindre l'événement : <%= @event.title %></h1>
+
+<%= form_with model: @attendance, local: true do |form| %>
+  <%= form.hidden_field :event_id, value: @event.id %>
+  <!-- Stripe à insérer ici -->
+  <%= form.submit "Payer et participer à l'événement" %>
+<% end %>
