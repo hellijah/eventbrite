@@ -1,9 +1,9 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authorize_event_creator!
-  before_action :set_event
+  before_action :authorize_event_creator!, only: [:edit, :update, :destroy]
   
   def index
+    
   end
 
   def show
@@ -12,6 +12,15 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+  end
+
+  def edit
+    @event = Event.find(params[:id])
+    if @event.update(event_params)
+      redirect_to @event, notice: "L'événement a été mis à jour avec succès"
+    else
+      render :edit
+    end
   end
 
   def create
@@ -32,14 +41,18 @@ class EventsController < ApplicationController
     end
   end
 
+  def destroy
+    @event = Event.find(params[:id])
+    @event.destroy
+    redirect_to events_path, notice: "L'événement a été supprimé"
+  end
+
   def attendances
     @event = Event.find(params[:id])
     @attendances = @event.attendances.includes(:user)
   end
 
-  def set_event
-    @event = Event.find(params[:id])
-  end
+
 private
 
 def event_params

@@ -13,8 +13,9 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :users
-  resources :events
-  resources :attendances
+  resources :events do
+    resources :attendances, only: [:index, :new, :create]
+  end
 
   # root 'events#index'
   root 'static_pages#index'

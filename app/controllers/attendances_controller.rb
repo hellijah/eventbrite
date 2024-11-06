@@ -1,5 +1,10 @@
 class AttendancesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_event
+
+  def index
+    @attendances = @event.attendances
+  end
 
   def new
     @event = Event.find(params[:event_id])
@@ -24,5 +29,9 @@ class AttendancesController < ApplicationController
 
   def attendance_params
     params.require(:attendance).permit(:stripe_customer_id)
+  end
+
+  def set_event
+    @event = Event.find(params[:event_id])
   end
 end

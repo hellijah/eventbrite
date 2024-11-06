@@ -17,7 +17,7 @@
 
 
 <% if user_signed_in? && current_user != @event.user && !@event.attendances.exists?(user_id: current_user.id) %>
-  <%= link_to "Rejoindre l'événement", new_attendance_path(event_id: @event.id) %>
+  <%= link_to "Rejoindre l'événement", new_event_attendance_path(@event) %>
 <% end %>
 
 <% if current_user == @event.user %>

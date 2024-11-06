@@ -1,0 +1,13 @@
+<h1>Liste des participations pour "<%= @event.title %>"</h1>
+
+<% if @attendances.any? %>
+  <ul>
+    <% @attendances.each do |attendance| %>
+      <li><%= attendance.user.first_name %> <%= attendance.user.last_name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Aucun participant pour cet événement</p>
+<% end %>
+
+<%= link_to "Retour à l'événement", @event %>

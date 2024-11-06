@@ -1,7 +1,33 @@
 <h1>Rejoindre l'événement : <%= @event.title %></h1>
 
+<%= form_with model: @attendance, url: event_attendances_path(@event), local: true do |form| %>
+  <% if @attendance.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@attendance.errors.count, "error") %> prohibited this attendance from being saved:</h2>
+
+      <ul>
+        <% @attendance.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.hidden_field :user_id, value: current_user.id %>
+    <%= form.hidden_field :event_id, value: @event.id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "S'inscrire" %>
+  </div>
+<% end %>
+
+
 <%= form_with model: @attendance, local: true do |form| %>
   <%= form.hidden_field :event_id, value: @event.id %>
   <!-- Stripe à insérer ici -->
   <%= form.submit "Payer et participer à l'événement" %>
 <% end %>
+
+<%= link_to "Retour à l'événement", @event %>

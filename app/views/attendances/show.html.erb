@@ -1,0 +1,11 @@
+<h1><%= @event.title %></h1>
+<p><%= @event.description %></p>
+<p><%= @event.location %> - <%= @event.start_date %></p>
+
+<% if user_signed_in? && current_user != @event.user && !@event.attendances.exists?(user_id: current_user.id) %>
+  <%= link_to "Rejoindre l'événement", new_event_attendance_path(@event) %>
+<% end %>
+
+<% if current_user == @event.user %>
+  <%= link_to 'Mon espace événement', event_attendances_path(@event) %>
+<% end %>
