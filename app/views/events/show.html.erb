@@ -18,10 +18,7 @@
 
 <% if user_signed_in? && current_user != @event.user && !@event.attendances.exists?(user_id: current_user.id) %>
   <!-- Bouton pour rejoindre l'événement et payer avec Stripe -->
-  <%= button_to "Rejoindre et Payer", checkout_create_path, 
-      params: { total: @event.price, event_id: @event.id }, 
-      method: :post, 
-      class: "btn btn-primary" %>
+  <%= button_to "Rejoindre et Payer", checkout_create_path(total: @event.price, event_id: @event.id), class: "btn btn-primary", data: {turbo: false} %>
 <% end %>
 
 <% if current_user == @event.user %>
