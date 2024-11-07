@@ -1,7 +1,8 @@
 class PaymentsController < ApplicationController
   before_action :authenticate_user!
 
-  def create
+  # def create
+  def create_checkout_session
     @total = params[:total].to_d
     @event_id = params[:event_id]
     @session = Stripe::Checkout::Session.create(
@@ -26,16 +27,33 @@ class PaymentsController < ApplicationController
     redirect_to @session.url, allow_other_host: true
   end
 
-def success
-  @session = Stripe::Checkout::Session.retrieve(params(:session_id))
-  @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
-  @event_id = @session.metadata.event_id
+  # def success
+  #   @session = Stripe::Checkout::Session.retrieve(params[:session_id])
+  #   @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
+  #   @event_id = @session.metadata.event_id
+    
+  #   stripe_customer_id = "stripe_#{SecureRandom.hex(10)}" #Unique User ID
+  #   Attendance.create(user: current_user, event_id: @event.id, stripe_customer_id: stripe_customer_id)
+  #   redirect_to event_path(@event_id), notice: "Paiement réussi et participation enregistrée"
+  # end
+
+
+  def success
+    @session = Stripe::Checkout::Session.retrieve(params[:session_id])
+    @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
+    @event = Event.find_by(id: @session.metadata.event_id)
   
-  stripe_customer_id = "stripe_#{SecureRandom.hex(10)}" #Unique User ID
-  Attendance.Create(user: current_user, event_id: @event_id, stripe_customer_id: stripe_customer_id)
+    if @event
+      stripe_customer_id = "stripe_#{SecureRandom.hex(10)}" # Unique User ID
+      Attendance.create(user: current_user, event_id: @event.id, stripe_customer_id: stripe_customer_id)
+      redirect_to event_path(@event), notice: "Paiement réussi et participation enregistrée"
+    else
+      redirect_to events_path, alert: "L'événement est introuvable"
+    end
+  end
 
-end
-
-def cancel_url
+  def cancel_url
+    # redirect_to events_path, alert: "Echec paiement"
+  end
 
 end

@@ -2,27 +2,20 @@ Rails.application.routes.draw do
   get "static_pages/index"
   get "static_pages/secret"
   devise_for :users
-  # get "attendances/create"
-  # get "events/index"
-  # get "events/show"
-  # get "events/new"
-  # get "events/create"
-  # get "users/new"
-  # get "users/create"
-  # get "users/show"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :users
-
-  resources :events do
-    post 'create_checkout_session', to: 'payments#create_checkout_session'
-  end
   
   resources :events do
+    post 'create_checkout_session', to: 'payments#create_checkout_session'
+    # get 'success', to: 'payments#success'
+    get 'checkout/success', to: 'payments#success', as: 'checkout_success'
+
     resources :attendances, only: [:index, :new, :create]
   end
   
-  
+  resources :payments, only: [:create]
 
   # root 'events#index'
   root 'static_pages#index'
