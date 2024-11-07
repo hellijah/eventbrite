@@ -315,6 +315,7 @@ DEPENDENCIES
   better_errors
   bootsnap
   brakeman
+  bundler
   capybara
   debug
   devise
